@@ -4,7 +4,7 @@ import { ShieldCheck, Users, BarChart3, Heart } from 'lucide-react';
 export default function LandingPage() {
   return (
     <div className="container" style={{ paddingBottom: '4rem' }}>
-      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 0' }}>
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 0', flexWrap: 'wrap', gap: '1rem' }}>
         <h1 className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: '700' }}><Link href="/">HoeTracker</Link></h1>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Link href="/login" className="btn-secondary">Sign In</Link>
@@ -13,10 +13,10 @@ export default function LandingPage() {
       </nav>
 
       <main style={{ marginTop: '4rem', textAlign: 'center' }} className="animate-fade-in">
-        <h2 style={{ fontSize: '4rem', fontWeight: '700', lineHeight: 1.2, marginBottom: '1rem' }}>
+        <h2 style={{ fontSize: 'clamp(2.25rem, 8vw, 4rem)', fontWeight: '700', lineHeight: 1.2, marginBottom: '1.5rem' }}>
           Keep Track Without <br/><span className="text-gradient">Losing Track.</span>
         </h2>
-        <p className="text-muted" style={{ fontSize: '1.25rem', maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+        <p className="text-muted" style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', maxWidth: '600px', margin: '0 auto 2.5rem', padding: '0 1rem' }}>
           Organize your dating life, conversations, and connections in one private, secure, and beautiful place.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '6rem' }}>
