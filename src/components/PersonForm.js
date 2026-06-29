@@ -1,34 +1,50 @@
 "use client";
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CldUploadWidget } from "next-cloudinary";
+import { Camera } from "lucide-react";
 
 export default function PersonForm({ initialData = null }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const [formData, setFormData] = useState(initialData || {
-    name: '',
-    nickname: '',
-    age: '',
-    gender: '',
-    location: '',
-    occupation: '',
-    instagram: '',
-    snapchat: '',
-    whatsapp: '',
-    twitter: '',
-    phoneNumber: '',
-    rating: '',
-    badBitch: '',
-    status: 'Talking',
-    interestLevel: 'Medium',
-    notes: '',
-    firstMet: '',
-    lastContact: '',
-    favorite: false,
+  const [formData, setFormData] = useState(() => {
+    const base = initialData || {
+      name: '',
+      nickname: '',
+      age: '',
+      gender: '',
+      location: '',
+      occupation: '',
+      instagram: '',
+      snapchat: '',
+      whatsapp: '',
+      twitter: '',
+      phoneNumber: '',
+      rating: '',
+      badBitch: '',
+      status: 'Talking',
+      interestLevel: 'Medium',
+      notes: '',
+      firstMet: '',
+      lastContact: '',
+      favorite: false,
+      profileImage: '',
+    };
+    return {
+      ...base,
+      profileImage: base.profileImage || '',
+    };
   });
+
+  const handleImageUpload = (result) => {
+    if (result.info && result.info.secure_url) {
+      setFormData(prev => ({ ...prev, profileImage: result.info.secure_url }));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -187,6 +203,36 @@ export default function PersonForm({ initialData = null }) {
           rows="5"
           placeholder="Memories, likes, dislikes, conversation notes..."
         />
+      </div>
+
+      <div style={{ marginTop: '2rem' }}>
+        <label style={{ display: 'block', marginBottom: '0.75rem', fontSize: '0.875rem', fontWeight: '600' }}>Partner Profile Photo</label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '1rem', border: '2px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {formData.profileImage ? (
+               <Image src={formData.profileImage} alt="Partner profile" width={120} height={120} style={{ objectFit: 'cover' }} />
+            ) : (
+              <Camera size={28} color="var(--text-muted)" />
+            )}
+          </div>
+
+          <CldUploadWidget
+            uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "your_upload_preset_here"}
+            onSuccess={handleImageUpload}
+            options={{ maxFiles: 1, resourceType: "image" }}
+          >
+            {({ open }) => (
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); open(); }}
+                className="btn-secondary"
+                style={{ padding: '0.75rem 1rem', fontSize: '0.875rem' }}
+              >
+                {formData.profileImage ? 'Change Photo' : 'Upload Photo'}
+              </button>
+            )}
+          </CldUploadWidget>
+        </div>
       </div>
 
       <button type="submit" className="btn-primary" style={{ marginTop: '2rem', width: '100%' }} disabled={loading}>

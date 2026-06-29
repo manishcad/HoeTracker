@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
@@ -34,9 +35,20 @@ export default async function PersonDetailPage({ params }) {
       <Link href="/dashboard" className="btn-secondary" style={{ marginBottom: '2rem', padding: '0.5rem 1rem' }}><ArrowLeft size={16} style={{ marginRight: '0.5rem' }}/> Back to Dashboard</Link>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: '700' }}>{person.name} {person.favorite && '❤️'}</h1>
-          {person.nickname && <p className="text-muted" style={{ fontSize: '1.25rem' }}>"{person.nickname}"</p>}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: '1 1 0' }}>
+          <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: 'var(--text-muted)' }}>
+            {person.profileImage ? (
+              <Image src={person.profileImage} alt={`${person.name} profile`} width={120} height={120} style={{ objectFit: 'cover' }} />
+            ) : (
+              person.name?.charAt(0).toUpperCase() || 'P'
+            )}
+          </div>
+          <div>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: '700', margin: 0 }}>{person.name} {person.favorite && '❤️'}</h1>
+            {person.nickname && <p className="text-muted" style={{ fontSize: '1.25rem', margin: '0.75rem 0 0' }}>
+              "{person.nickname}"
+            </p>}
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Link href={`/dashboard/edit/${person.id}`} className="btn-secondary"><Edit size={16} style={{ marginRight: '0.5rem' }}/> Edit</Link>

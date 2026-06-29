@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
@@ -75,10 +76,21 @@ function PersonCard({ person }) {
 
   return (
     <div className="glass feature-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-        <div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: '600' }}>{person.name} {person.favorite && '❤️'}</h3>
-          {person.nickname && <p className="text-muted" style={{ fontSize: '0.875rem' }}>"{person.nickname}"</p>}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', color: 'var(--text-muted)' }}>
+            {person.profileImage ? (
+              <Image src={person.profileImage} alt={`${person.name} profile`} width={64} height={64} style={{ objectFit: 'cover' }} />
+            ) : (
+              person.name?.charAt(0).toUpperCase() || 'P'
+            )}
+          </div>
+          <div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', margin: 0 }}>{person.name} {person.favorite && '❤️'}</h3>
+            {person.nickname && <p className="text-muted" style={{ fontSize: '0.875rem', margin: 0 }}>
+              "{person.nickname}"
+            </p>}
+          </div>
         </div>
         <span style={{ 
           background: 'rgba(255,255,255,0.1)', 

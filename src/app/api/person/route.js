@@ -36,6 +36,7 @@ export async function POST(req) {
         firstMet: data.firstMet ? new Date(data.firstMet) : null,
         lastContact: data.lastContact ? new Date(data.lastContact) : null,
         notes: data.notes || null,
+        profileImage: data.profileImage || null,
       }
     });
 
